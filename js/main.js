@@ -188,6 +188,10 @@ const productos = [
 
 const contenedorProductos = document.querySelector("#contenedor-productos");  //selecciono el id y lo meto en una var 
 const botonesCategorias = document.querySelectorAll(".boton-categoria");
+const tituloPrincipal = document.querySelector("#titulo-principal");
+let    botonesAgregar = document.querySelectorAll(".producto-agregar");
+
+
 
 function cargarProductos (productosElegidos) {
     //cuando el html este vacio o mejor dicho vacio yo el html para agregar lo deseado con el boton y evento click objetivo mostrar productos segun categoria
@@ -207,7 +211,10 @@ function cargarProductos (productosElegidos) {
         
         `;
         contenedorProductos.append(div);
+        
     }) 
+    actualizarBotoneAgregar();
+    console.log(botonesAgregar);
 }
 
 cargarProductos(productos); // passo el arrray entero 
@@ -218,51 +225,47 @@ botonesCategorias.forEach(boton => {
         botonesCategorias.forEach(boton => boton.classList.remove("active")) //desactivo el diseño blanco del boton
 
         e.currentTarget.classList.add("active");//activo  el diseño blanco del boton al hacer click
+
+        if (e.currentTarget.id != "todos"){     
+            const productoCategoria = productos.find(producto => producto.categoria.id === e.currentTarget.id );
+            
+            tituloPrincipal.innerText =  productoCategoria.categoria.nombre;
+
+            const productosBoton = productos.filter(producto => producto.categoria.id === e.currentTarget.id); // creo array con productos q condicen con id
+            cargarProductos(productosBoton);
+        }else{
+
+            tituloPrincipal.innerText = "Todos los productos";
+            cargarProductos(productos);
+        }
         
-        const productosBoton = productos.filter(producto => producto.categoria.id === e.currentTarget.id); // creo array con productos q condicen con id
-        cargarProductos(productosBoton)
     }
 
 )
 
 })
 
-/*
+function actualizarBotoneAgregar () {
+    botonesAgregar = document.querySelectorAll(".producto-agregar");
 
-function cargarAbrigos(){
+    botonesAgregar.forEach(boton =>{
+        boton.addEventListener("click", agregarAlCarrito); 
+    } );
 
-    producto.forEach(producto => {
-        const div = document.createElement("li");
-        div.classList.add("boton-categoria");
-        div.innerHTML = `
-
-            <img class="producto-imagen" src="${producto.imagen}" alt="${producto.titulo}">
-                <div class="producto-detalles">
-                    <h3 class="producto-titulo">${producto.titulo}</h3>
-                    <p class="producto-precio">${producto.precio}</p>
-                    <button class="producto-agregar" id="${producto.id}">Agregar</button>
-                </div>
     
-        
-        
-        `
-        botonCategorias.append(div);
-    })
+}
+const productoEnCarrito = [];
+
+function agregarAlCarrito(e){
+    //tomo el parametro e como evento y asigno el id q tiene c/ objeto en agregar entonces c/vez q apreto agregar me trae el id de ese producto
+    const idBoton = e.currentTarget.id;
+    const productoAgregado = productos.find(producto => producto.id === idBoton );
+    //chequeo q el producto no este agregado y si es asi no agregue de nuevo SINO Q SUME OTRA CANTIDAD DEL MISMO 
+    if (productoEnCarrito.some != productoAgregado)
+
+    productoEnCarrito.push(productoAgregado);
+    console.log(productoEnCarrito);
 
 }
-cargarAbrigos()
 
-
-/**             <li>
-                    <button  id="todos" class="boton-menu boton-categoria active " ><i class="bi bi-hand-index-thumb-fill"></i>Todos los productos</button>
-                </li>
-                <li>
-                    <button id="abrigos" class="boton-menu boton-categoria"><i class="bi bi-hand-index-thumb"></i>Abrigos</button>
-                </li>
-                <li>
-                    <button id="camisetas" class="boton-menu boton-categoria"><i class="bi bi-hand-index-thumb"></i>Camisetas</button>
-                </li>
-                <li>
-                    <button id="pantalones" class="boton-menu boton-categoria"><i class="bi bi-hand-index-thumb"></i>Pantalones</button>
-                </li>
-                <li> */
+0
