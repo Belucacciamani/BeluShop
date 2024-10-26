@@ -189,7 +189,8 @@ const productos = [
 const contenedorProductos = document.querySelector("#contenedor-productos");  //selecciono el id y lo meto en una var 
 const botonesCategorias = document.querySelectorAll(".boton-categoria");
 const tituloPrincipal = document.querySelector("#titulo-principal");
-let    botonesAgregar = document.querySelectorAll(".producto-agregar");
+let   botonesAgregar = document.querySelectorAll(".producto-agregar");
+const numerito = document.querySelector("#numerito")
 
 
 
@@ -214,7 +215,8 @@ function cargarProductos (productosElegidos) {
         
     }) 
     actualizarBotoneAgregar();
-    console.log(botonesAgregar);
+  
+    
 }
 
 cargarProductos(productos); // passo el arrray entero 
@@ -251,21 +253,45 @@ function actualizarBotoneAgregar () {
     botonesAgregar.forEach(boton =>{
         boton.addEventListener("click", agregarAlCarrito); 
     } );
-
-    
+  
 }
-const productoEnCarrito = [];
+
+
+//creo nuevo array vacio donde vvoy a guardar los productos agregados al carrito 
+const productosEnCarrito = [];
 
 function agregarAlCarrito(e){
-    //tomo el parametro e como evento y asigno el id q tiene c/ objeto en agregar entonces c/vez q apreto agregar me trae el id de ese producto
+    //tomo el parametro "e" como evento y asigno el id q tiene c/ objeto en agregar entonces c/vez q apreto agregar me trae el id de ese producto
     const idBoton = e.currentTarget.id;
+   //traigo el objeto del producto entero 
     const productoAgregado = productos.find(producto => producto.id === idBoton );
-    //chequeo q el producto no este agregado y si es asi no agregue de nuevo SINO Q SUME OTRA CANTIDAD DEL MISMO 
-    if (productoEnCarrito.some != productoAgregado)
+    
+//chequeo q el producto no este agregado y si es asi no agregue de nuevo SINO Q SUME OTRA CANTIDAD DEL MISMO 
+    
+     if (productosEnCarrito.some(producto => producto.id === idBoton)){
+        //busco el nro del indice del array nuevo 
+         const index = productosEnCarrito.findIndex(producto => producto.id === idBoton);
+         productosEnCarrito[index].cantidad++;
+         
+     }else {
+        //agrego al objeto la propiedad cantidad (todo esto al nuevo array generado )
+        productoAgregado.cantidad = 1;
+        productosEnCarrito.push(productoAgregado);     
+     }
+    actualizarNumerito();
 
-    productoEnCarrito.push(productoAgregado);
-    console.log(productoEnCarrito);
+    //guardo nuevo array al localstorage para usarlo en el carrito 
+    localStorage.setItem("producto-en-carrito", JSON.stringify(productosEnCarrito));
+    
 
-}
+};
 
-0
+ function actualizarNumerito (){    
+    //sumo las cantidades seleccionadas (agregadas) independientemente cual sea el producto los va contando y sumando 
+     let nuevoNumerito = productosEnCarrito.reduce((acc, producto) => acc + producto.cantidad, 0);
+     numerito.innerText= nuevoNumerito;  
+      
+ }
+
+
+
