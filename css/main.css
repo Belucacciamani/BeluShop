@@ -37,7 +37,7 @@ a {
 }
 
 aside {
-    padding: 0;
+    padding: 2rem;
     padding-right: 0;
     color: var(--clr-white);
     position: sticky;
@@ -49,8 +49,9 @@ aside {
 }
 
 .logo{
-    font-weight: 400;
+    font-weight: 500;
     font-size: 1.2rem;
+    
 }
 .menu {
     display: flex;
@@ -107,6 +108,12 @@ aside {
     box-shadow:  0 -1rem  0 var(--clr-white);
 }
 
+.bi-hand-index-thumb-fill,
+.bi-hand-index-thumb{
+    transform: rotateZ(90deg);
+
+}
+
 .boton-carrito{
     margin-top: 2rem;
 
@@ -124,14 +131,10 @@ aside {
 
 } 
 
-.bi-hand-index-thumb-fill,
-.bi-hand-index-thumb{
-    transform: rotateZ(90deg);
 
-}
 .texto-footer {
     color: var(--clr-main-light);
-    font-size: .85rem;
+    font-size: .90rem;
     
 }
 main {
@@ -258,10 +261,7 @@ main {
     text-transform: uppercase;
     cursor: pointer;
 }
-carrito-acciones-derecha {
-display: flex;
 
-}
 .carrito-acciones-derecha{
     display: flex;
 }
@@ -292,6 +292,6 @@ display: flex;
 }
 
 
-.disables {
+.disabled {
     display: none ;
 }

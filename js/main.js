@@ -230,8 +230,8 @@ botonesCategorias.forEach(boton => {
 
         if (e.currentTarget.id != "todos"){     
             const productoCategoria = productos.find(producto => producto.categoria.id === e.currentTarget.id );
-            
-            tituloPrincipal.innerText =  productoCategoria.categoria.nombre;
+             tituloPrincipal.innerText =  productoCategoria.categoria.nombre;
+           
 
             const productosBoton = productos.filter(producto => producto.categoria.id === e.currentTarget.id); // creo array con productos q condicen con id
             cargarProductos(productosBoton);
@@ -255,10 +255,23 @@ function actualizarBotoneAgregar () {
     } );
   
 }
+let productosEnCarrito;
+let nuevoNumerito;
 
 
-//creo nuevo array vacio donde vvoy a guardar los productos agregados al carrito 
-const productosEnCarrito = [];
+//TRAIGO DEL LOCAL STORAGE OS PRODUCTOS SELECCIONADOS 
+let productosEnCarritoLS = localStorage.getItem("productos-en-carrito");
+
+
+//SI AHI el el localstorage q productos en carrito sea igual alo del LS y sino q sea un array vacio
+if  (productosEnCarritoLS){
+productosEnCarrito = JSON.parse(productosEnCarritoLS);
+actualizarNumerito();
+
+}else{
+     productosEnCarrito = [];
+};
+
 
 function agregarAlCarrito(e){
     //tomo el parametro "e" como evento y asigno el id q tiene c/ objeto en agregar entonces c/vez q apreto agregar me trae el id de ese producto
@@ -281,7 +294,7 @@ function agregarAlCarrito(e){
     actualizarNumerito();
 
     //guardo nuevo array al localstorage para usarlo en el carrito 
-    localStorage.setItem("producto-en-carrito", JSON.stringify(productosEnCarrito));
+    localStorage.setItem("productos-en-carrito", JSON.stringify(productosEnCarrito));
     
 
 };
